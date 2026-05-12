@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from http.intelligence_controller import router as router_intelligence
+from http_routes.controllers.intelligence_controller import router as router_intelligence
 
 app = FastAPI()
 app.include_router(router_intelligence)
