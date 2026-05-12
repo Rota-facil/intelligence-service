@@ -1,15 +1,15 @@
 import pandas as pd
 import plotly.express as px
-from http_routes.dto.point_dto import PointDto
+from http_routes.dto.point_request_dto import PointRequestDto
 
 
 class HeatMapService:
-    def make_heat_map(self, locations: list[PointDto]):
+    def make_heat_map(self, locations: list[PointRequestDto]):
         data_frame = self.__build_data_frame(locations)
         fig = self.__build_density_map(data_frame)
         fig.write_image("heatmap.png")
 
-    def __build_data_frame(self, locations: list[PointDto]):
+    def __build_data_frame(self, locations: list[PointRequestDto]):
         latitude = []
         longitude = []
 
