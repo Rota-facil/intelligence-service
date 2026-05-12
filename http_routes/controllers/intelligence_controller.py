@@ -9,14 +9,18 @@ router = APIRouter(prefix="/intelligence")
 heat_map_service = HeatMapService()
 open_ai_service = OpenAIService()
 
+@router.get("/")
+async def heath_check():
+    return "intelligence-service is running"
+
 @router.get("/route/heat-map")
 async def generate_heat_map(locations: list[PointRequestDto]):
     heat_map_service.make_heat_map(locations)
     return 'testando'
 
-@router.get("/route/interpretation")
+@router.post("/route/interpretation")
 async def generate_route_interpretation(route_content: RouteContentRequestDTO):
     route_interpretation = open_ai_service.generate_route_interpretation(route_content)
     return {
-        'route_interpretation': route_interpretation
+        'routeInterpretation': route_interpretation
     }

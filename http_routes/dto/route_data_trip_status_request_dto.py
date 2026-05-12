@@ -5,4 +5,4 @@ from pydantic import BaseModel
 class RouteDataTripStatusRequestDTO(BaseModel):
     progress: str
     delay: str
-    event_occurred: datetime
+    eventOccurred: datetime
