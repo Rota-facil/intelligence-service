@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+
+from http_routes.dto.create_route_heat_map_request_dto import RouteHeatMapRequestDTO
 from http_routes.dto.point_request_dto import PointRequestDto
 from http_routes.dto.route_data_request_dto import RouteContentRequestDTO
 from business.heat_maps_service import HeatMapService
@@ -14,9 +16,9 @@ async def heath_check():
     return "intelligence-service is running"
 
 @router.get("/route/heat-map")
-async def generate_heat_map(locations: list[PointRequestDto]):
-    heat_map_service.make_heat_map(locations)
-    return 'testando'
+async def generate_heat_map(route_heat_map: RouteHeatMapRequestDTO):
+    pre_signed_url = heat_map_service.make_heat_map(route_heat_map)
+    return {'preSignedUrlHeatMap': pre_signed_url}
 
 @router.post("/route/interpretation")
 async def generate_route_interpretation(route_content: RouteContentRequestDTO):
