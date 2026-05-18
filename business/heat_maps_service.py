@@ -8,7 +8,7 @@ from http_routes.dto.point_request_dto import PointRequestDto
 
 import os
 
-BASE_FILE_SERVICE_URL = os.environ.get("BASE_FILE_SERVICE_URL", "http://localhost:8088")
+BASE_FILE_SERVICE_URL = os.environ.get("BASE_FILE_SERVICE_URL", "http://localhost:8088/files")
 
 
 class HeatMapService:
@@ -28,14 +28,15 @@ class HeatMapService:
 
         current_user = route_heat_map.currentUser
 
+        url = f"{BASE_FILE_SERVICE_URL}/heat-map/{route_heat_map.routeId}"
         response = requests.post(
-            f"{BASE_FILE_SERVICE_URL} + /heat-map/ + {route_heat_map.routeId}",
+            url,
             files=files,
             headers= {
-                'x-user-id': current_user.userId,
+                'x-user-id': str(current_user.userId),
                 'x-user-email': current_user.email,
                 'x-user-role': current_user.role,
-                'x-prefecture-id': current_user.prefectureId,
+                'x-prefecture-id': str(current_user.prefectureId),
             }
         )
 
