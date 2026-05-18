@@ -15,7 +15,7 @@ open_ai_service = OpenAIService()
 async def heath_check():
     return "intelligence-service is running"
 
-@router.get("/route/heat-map")
+@router.post("/route/heat-map")
 async def generate_heat_map(route_heat_map: RouteHeatMapRequestDTO):
     pre_signed_url = heat_map_service.make_heat_map(route_heat_map)
     return {'preSignedUrlHeatMap': pre_signed_url}
