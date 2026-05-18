@@ -1,8 +1,10 @@
 from openai import OpenAI
 from http_routes.dto.route_data_request_dto import RouteContentRequestDTO
+import os
 
+OPEN_AI_API_KEY = os.environ.get("OPEN_AI_API_KEY", 'your_api_key')
 client = OpenAI(
-    api_key="your-api-key"
+    api_key=OPEN_AI_API_KEY
 )
 
 
