@@ -1,15 +1,15 @@
 import asyncio
 import os
-
+import logging
 from contextlib import asynccontextmanager
-
 import py_eureka_client.eureka_client as eureka
-
 from fastapi import FastAPI
 
 from http_routes.controllers.intelligence_controller import (
     router as router_intelligence
 )
+
+logger = logging.getLogger(__name__)
 
 EUREKA_SERVER = os.environ.get(
     "EUREKA_SERVER",
@@ -24,8 +24,12 @@ INTELLIGENCE_HOST = os.environ.get(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    while True:
+    connected = False
+
+    while not connected:
         try:
+            logger.info("Trying to connect to Eureka...")
+
             await eureka.init_async(
                 eureka_server=EUREKA_SERVER,
                 app_name="intelligence-service",
@@ -33,11 +37,11 @@ async def lifespan(app: FastAPI):
                 instance_host=INTELLIGENCE_HOST
             )
 
-            print("Connected to Eureka!")
-            break
+            connected = True
+            logger.info("Connected to Eureka!")
 
         except Exception as e:
-            print(f"Eureka not ready yet: {e}")
+            logger.warning(f"Eureka not ready yet: {e}")
             await asyncio.sleep(5)
 
     yield
