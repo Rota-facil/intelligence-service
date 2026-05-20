@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 from contextlib import asynccontextmanager
@@ -23,13 +24,21 @@ INTELLIGENCE_HOST = os.environ.get(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    while True:
+        try:
+            await eureka.init_async(
+                eureka_server=EUREKA_SERVER,
+                app_name="intelligence-service",
+                instance_port=8000,
+                instance_host=INTELLIGENCE_HOST
+            )
 
-    await eureka.init_async(
-        eureka_server=EUREKA_SERVER,
-        app_name="intelligence-service",
-        instance_port=8000,
-        instance_host=INTELLIGENCE_HOST
-    )
+            print("Connected to Eureka!")
+            break
+
+        except Exception as e:
+            print(f"Eureka not ready yet: {e}")
+            await asyncio.sleep(5)
 
     yield
 
