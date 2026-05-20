@@ -13,21 +13,32 @@ class OpenAIService:
         return client.responses.create(
             model="gpt-4.1-nano",
             input=f"""
-            Você é um analista inteligente de transporte.
+            Você é a inteligência analítica do sistema Rota Fácil.
 
-            Analise os dados abaixo de uma rota de transporte universitário.
+            Analise os dados históricos da rota e gere uma interpretação operacional inteligente.
 
-            Identifique:
-            - padrões
-            - tendências
-            - possíveis problemas recorrentes
-            - estabilidade da rota
+            Sua análise deve:
+            - usar métricas proporcionais e percentuais sempre que possível
+            - identificar frequência de atrasos, cancelamentos e pontualidade
+            - detectar tendências de crescimento ou redução de problemas
+            - identificar padrões recorrentes
+            - inferir possíveis comportamentos futuros da rota
+            - justificar as conclusões com base nos dados
 
-            Gere uma descrição:
-            - profissional
-            - amigável
-            - curta
-            - objetiva
+            Importante:
+            - seja direto e objetivo
+            - máximo de 2 parágrafos
+            - evite repetir informações
+            - não invente dados inexistentes
+            - não explique funcionalidades do sistema
+            - fale como uma IA interna do Rota Fácil
+            - priorize insights operacionais relevantes
+
+            Exemplos esperados:
+            - "35% das viagens apresentaram atraso"
+            - "houve aumento na recorrência de atrasos"
+            - "a pontualidade permaneceu estável"
+            - "cancelamentos representam baixa recorrência operacional"
 
             Dados:
             {route_content.model_dump_json(indent=2)}
