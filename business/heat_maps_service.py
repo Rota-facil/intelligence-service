@@ -8,7 +8,8 @@ from http_routes.dto.point_request_dto import PointRequestDto
 
 import os
 
-BASE_FILE_SERVICE_URL = os.environ.get("BASE_FILE_SERVICE_URL", "http://localhost:8088/files")
+BASE_ROTA_FACIL_URL = os.environ.get("BASE_ROTA_FACIL_URL", "http://localhost:8088")
+ROTA_FACIL_API_KEY = os.environ.get("ROTA_FACIL_API_KEY", "050ec8ba-3db7-42ac-a235-1ca9f5bb3dfd")
 
 
 class HeatMapService:
@@ -28,15 +29,14 @@ class HeatMapService:
 
         current_user = route_heat_map.currentUser
 
-        url = f"{BASE_FILE_SERVICE_URL}/heat-map/{route_heat_map.routeId}"
+        url = f"{BASE_ROTA_FACIL_URL}/files/heat-map/{route_heat_map.routeId}"
+
         response = requests.post(
             url,
             files=files,
+            json=current_user,
             headers= {
-                'x-user-id': str(current_user.userId),
-                'x-user-email': current_user.email,
-                'x-user-role': current_user.role,
-                'x-prefecture-id': str(current_user.prefectureId),
+                'x-api-key': ROTA_FACIL_API_KEY
             }
         )
 
